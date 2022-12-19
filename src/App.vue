@@ -3,23 +3,8 @@ import html2canvas from 'html2canvas'
 import { sampleSize } from 'lodash'
 import { computed, onMounted, reactive, ref } from 'vue'
 
-import economy from './lists/economy.json'
-import entertainment from './lists/entertainment.json'
-import likely from './lists/likely.json'
-import politics from './lists/politics.json'
-import science from './lists/science.json'
-import unlikely from './lists/unlikely.json'
-import unpleasant from './lists/unpleasant.json'
+import DEFAULT_GRID_OPTIONS from './lists/index.js'
 
-const DEFAULT_GRID_OPTIONS = [
-  ...economy,
-  ...entertainment,
-  ...likely,
-  ...politics,
-  ...science,
-  ...unlikely,
-  ...unpleasant,
-]
 const FREE_SQUARE = 'Free!'
 
 const customOptionsForm = reactive({
