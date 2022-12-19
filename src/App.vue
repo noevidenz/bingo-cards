@@ -1,6 +1,7 @@
 <script setup>
+import html2canvas from 'html2canvas'
 import { sampleSize } from 'lodash'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 
 import economy from './lists/economy.json'
 import entertainment from './lists/entertainment.json'
@@ -9,7 +10,6 @@ import politics from './lists/politics.json'
 import science from './lists/science.json'
 import unlikely from './lists/unlikely.json'
 import unpleasant from './lists/unpleasant.json'
-import html2canvas from 'html2canvas'
 
 const DEFAULT_GRID_OPTIONS = [
   ...economy,
@@ -22,13 +22,15 @@ const DEFAULT_GRID_OPTIONS = [
 ]
 const FREE_SQUARE = 'Free!'
 
-const customOptionsRaw = ref('')
-const customOptions = ref(false)
-const includeDefaultOptions = ref(true)
+const customOptionsForm = reactive({
+  enabled: false,
+  includeDefault: true,
+  input: '',
+})
 
-const gridElement = ref(null)
 const grid = ref([])
 
+const gridElement = ref(null)
 const hiddenDownloadLink = ref(null)
 
 onMounted(() => {
@@ -36,17 +38,17 @@ onMounted(() => {
   grid.value[12] = FREE_SQUARE
 })
 
-const customOptionsArray = computed(() => customOptionsRaw.value.trim().split('\n').filter(e => e))
+const customOptions = computed(() => customOptionsForm.input.trim().split('\n').filter(e => e))
 
 const gridOptions = computed(() => {
   const options = []
 
-  if (includeDefaultOptions.value) {
+  if (customOptionsForm.includeDefault) {
     options.push(...DEFAULT_GRID_OPTIONS)
   }
 
-  if (customOptions.value) {
-    options.push(...customOptionsArray.value)
+  if (customOptionsForm.enabled) {
+    options.push(...customOptions.value)
   }
 
   return options
@@ -87,7 +89,7 @@ const generate = () => {
 
     <div class="flex gap-4">
       <button
-          :disabled="customOptions && !includeDefaultOptions && customOptionsArray.length < 24"
+          :disabled="customOptionsForm.enabled && !customOptionsForm.includeDefault && customOptions.length < 24"
           class="bg-slate-100 border border-slate-600 px-2.5 py-2 rounded-lg text-slate-800 hover:bg-slate-200 disabled:bg-slate-100 disabled:opacity-80"
           @click="generate"
       >Generate!</button>
@@ -98,13 +100,13 @@ const generate = () => {
       >Download</button>
     </div>
 
-    <button class="underline" @click="customOptions = !customOptions">Use custom options</button>
+    <button class="underline" @click="customOptionsForm.enabled = !customOptionsForm.enabled">Use custom options</button>
 
-    <div v-if="customOptions">
+    <div v-if="customOptionsForm.enabled">
 
       <div class="my-4">
         <label>
-          <input type="checkbox" v-model="includeDefaultOptions" class="mr-2.5">
+          <input type="checkbox" v-model="customOptionsForm.includeDefault" class="mr-2.5">
           <span>Include default options?</span>
         </label>
       </div>
@@ -113,9 +115,9 @@ const generate = () => {
         <p>
           Enter custom options below, one item per line.
           <br>
-          <span v-if="customOptionsArray.length < 24" class="text-red-600">Must supply at least 24 options! (<span v-text="24 - customOptionsArray.length"></span> more)</span>
+          <span v-if="!customOptionsForm.includeDefault && customOptions.length < 24" class="text-red-600">Must supply at least 24 options! (<span v-text="24 - customOptions.length"></span> more)</span>
         </p>
-        <textarea v-model="customOptionsRaw" class="border border-slate-300 h-96 m-4 p-4 w-[800px]"></textarea>
+        <textarea v-model="customOptionsForm.input" class="border border-slate-300 h-96 m-4 p-4 w-[800px]"></textarea>
       </div>
     </div>
 
