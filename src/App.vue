@@ -61,6 +61,15 @@ const generate = () => {
 </script>
 
 <template>
+  <a
+      class="absolute right-6 top-4 block opacity-50 w-10 hover:opacity-100"
+      href="https://github.com/noevidenz/bingo-cards"
+      title="Github Repo"
+      target="_blank"
+  >
+    <img src="/src/assets/github-mark.svg" class="aspect-square" alt="Github">
+  </a>
+
   <div class="flex flex-col gap-y-8 items-center justify-center mt-16">
     <h1 class="font-bold text-4xl text-slate-700">2023 Bingo!</h1>
 
@@ -108,6 +117,7 @@ const generate = () => {
 
     <a ref="hiddenDownloadLink" class="hidden" download="2023-bingo.png"></a>
   </div>
+
 </template>
 
 <style scoped>
