@@ -70,7 +70,7 @@ const generate = () => {
     <img src="/src/assets/github-mark.svg" class="aspect-square" alt="Github">
   </a>
 
-  <div class="flex flex-col gap-y-8 items-center justify-center mt-16">
+  <div class="flex flex-col gap-y-8 items-center justify-center pt-16">
     <h1 class="font-bold text-4xl text-slate-700">2023 Bingo!</h1>
 
     <div ref="gridElement" class="bg-black border border-black grid gap-px bingo-card text-black">
@@ -96,7 +96,7 @@ const generate = () => {
 
     <button class="underline" @click="customOptionsForm.enabled = !customOptionsForm.enabled">Use custom options</button>
 
-    <div v-if="customOptionsForm.enabled">
+    <div v-if="customOptionsForm.enabled" class="p-8 mx-auto max-w-4xl w-full">
 
       <div class="my-4">
         <label>
@@ -106,12 +106,12 @@ const generate = () => {
       </div>
 
       <div class="my-4">
-        <p>
+        <p class="my-4">
           Enter custom options below, one item per line.
           <br>
           <span v-if="!customOptionsForm.includeDefault && customOptions.length < 24" class="text-red-600">Must supply at least 24 options! (<span v-text="24 - customOptions.length"></span> more)</span>
         </p>
-        <textarea v-model="customOptionsForm.input" class="border border-slate-300 h-96 m-4 p-4 w-[800px]"></textarea>
+        <textarea v-model="customOptionsForm.input" class="border border-slate-300 h-96 p-4 w-full"></textarea>
       </div>
     </div>
 

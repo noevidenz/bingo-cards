@@ -8,5 +8,5 @@
 }
 
 .bingo-card :nth-child(13) {
-    @apply font-bold text-xl
+    @apply font-bold text-2xl;
 }
