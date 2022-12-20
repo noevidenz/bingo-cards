@@ -10,7 +10,7 @@ const FREE_SQUARE = 'Free!'
 const customOptionsForm = reactive({
   enabled: false,
   includeDefault: true,
-  input: '',
+  input: localStorage.getItem('customOptions') || '',
 })
 
 const grid = ref([])
@@ -58,6 +58,8 @@ const generate = () => {
 
   grid.value = subset
 }
+
+const storeCustomOptions = () => localStorage.setItem('customOptions', customOptionsForm.input)
 </script>
 
 <template>
@@ -111,7 +113,7 @@ const generate = () => {
           <br>
           <span v-if="!customOptionsForm.includeDefault && customOptions.length < 24" class="text-red-600">Must supply at least 24 options! (<span v-text="24 - customOptions.length"></span> more)</span>
         </p>
-        <textarea v-model="customOptionsForm.input" class="border border-slate-300 h-96 p-4 w-full"></textarea>
+        <textarea @blur="storeCustomOptions" v-model="customOptionsForm.input" class="border border-slate-300 h-96 p-4 w-full"></textarea>
       </div>
     </div>
 
