@@ -28,6 +28,7 @@ onMounted(() => {
 
   grid.value = Array(25)
   grid.value[12] = FREE_SQUARE
+  generate()
 })
 
 const customOptions = computed(() => customOptionsForm.input.trim().split('\n').filter(e => e))
