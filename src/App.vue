@@ -19,6 +19,13 @@ const gridElement = ref(null)
 const hiddenDownloadLink = ref(null)
 
 onMounted(() => {
+  const stored = localStorage.getItem('grid');
+
+  if (stored) {
+    grid.value = JSON.parse(stored);
+    return;
+  }
+
   grid.value = Array(25)
   grid.value[12] = FREE_SQUARE
 })
@@ -57,6 +64,8 @@ const generate = () => {
   subset.splice(12, 0, FREE_SQUARE)
 
   grid.value = subset
+
+  localStorage.setItem('grid', JSON.stringify(subset))
 }
 
 const storeCustomOptions = () => localStorage.setItem('customOptions', customOptionsForm.input)
